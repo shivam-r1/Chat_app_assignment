@@ -4,7 +4,7 @@ function errorHandler(err, req, res, next) {
   res.status(status).json({
     error: {
       message: err.message || 'Internal Server Error',
-      code: 'SERVER_ERROR',
+      code: err.code || 'SERVER_ERROR',
     },
   });
 }

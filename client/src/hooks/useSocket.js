@@ -2,25 +2,25 @@ import { useState, useEffect } from 'react';
 import socket from '../services/socket';
 
 export default function useSocket(username) {
-  const [connected, setConnected] = useState(socket.connected);
+  const [status, setStatus] = useState(socket.connected ? 'connected' : 'connecting');
 
   useEffect(() => {
     if (!username) {
-      setConnected(false);
+      setStatus('connecting');
       return;
     }
 
     const handleConnect = () => {
-      setConnected(true);
+      setStatus('connected');
       socket.emit('join_room', { username, room: 'general' });
     };
 
     const handleDisconnect = () => {
-      setConnected(false);
+      setStatus('disconnected');
     };
 
     const handleConnectError = () => {
-      setConnected(false);
+      setStatus('disconnected');
     };
 
     socket.on('connect', handleConnect);
@@ -38,10 +38,9 @@ export default function useSocket(username) {
       socket.off('disconnect', handleDisconnect);
       socket.off('connect_error', handleConnectError);
       socket.disconnect();
-      setConnected(false);
+      setStatus('connecting');
     };
   }, [username]);
 
-  return { connected };
+  return { connected: status === 'connected', status };
 }
-

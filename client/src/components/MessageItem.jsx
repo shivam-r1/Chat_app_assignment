@@ -1,4 +1,4 @@
-export default function MessageItem({ message }) {
+export default function MessageItem({ message, isOwn = false }) {
   if (!message) return null;
 
   const { username = 'Unknown', message: text = '', createdAt, timestamp } = message;
@@ -9,7 +9,7 @@ export default function MessageItem({ message }) {
   }
 
   return (
-    <div className="message-item">
+    <div className={`message-item${isOwn ? ' message-item--own' : ''}`}>
       <div className="message-header">
         <span className="message-username">{username}</span>
         {formattedTime && <span className="message-timestamp">{formattedTime}</span>}
@@ -18,4 +18,3 @@ export default function MessageItem({ message }) {
     </div>
   );
 }
-

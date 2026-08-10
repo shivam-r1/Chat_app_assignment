@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
 import socket from '../services/socket';
 
@@ -59,7 +59,7 @@ export default function useChatMessages() {
     };
   }, []);
 
-  return { messages, loading, error, socketError, sendMessage };
+  const clearSocketError = useCallback(() => setSocketError(null), []);
+
+  return { messages, loading, error, socketError, sendMessage, clearSocketError };
 }
-
-

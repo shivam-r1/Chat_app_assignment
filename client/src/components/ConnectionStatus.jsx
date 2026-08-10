@@ -1,8 +1,9 @@
-export default function ConnectionStatus({ status = 'Disconnected' }) {
+export default function ConnectionStatus({ connected = false }) {
   return (
     <div className="connection-status">
-      <span className="status-dot"></span>
-      <span className="status-text">{status}</span>
+      <span className={`status-dot ${connected ? 'connected' : ''}`}></span>
+      <span className="status-text">{connected ? 'Connected' : 'Connecting...'}</span>
     </div>
   );
 }
+

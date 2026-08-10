@@ -6,24 +6,31 @@ import MessageList from './components/MessageList';
 import MessageInput from './components/MessageInput';
 import TypingIndicator from './components/TypingIndicator';
 import useChatMessages from './hooks/useChatMessages';
+import useSocket from './hooks/useSocket';
 import './App.css';
 
 function ChatMain() {
   const { username, room } = useContext(ChatContext);
-  const { messages, loading, error } = useChatMessages();
+  const { connected } = useSocket(username);
+  const { messages, loading, error, socketError, sendMessage } = useChatMessages();
 
   if (!username) {
     return <UsernameGate />;
   }
 
+  const handleSend = (text) => {
+    sendMessage({ username, message: text, room: room || 'general' });
+  };
+
   return (
     <div className="chat-layout">
-      <ChatHeader room={room} />
+      <ChatHeader room={room} connected={connected} />
       <div className="chat-body">
         <MessageList messages={messages} loading={loading} error={error} />
         <TypingIndicator typingUsers={[]} />
       </div>
-      <MessageInput />
+      {socketError && <div className="socket-error">{socketError}</div>}
+      <MessageInput onSend={handleSend} />
     </div>
   );
 }
@@ -35,4 +42,5 @@ export default function App() {
     </ChatProvider>
   );
 }
+
 

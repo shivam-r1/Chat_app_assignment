@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
+import socket from '../services/socket';
+
+export function sendMessage({ username, message, room }) {
+  socket.emit('send_message', { username, message, room });
+}
 
 export default function useChatMessages() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [socketError, setSocketError] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -35,6 +41,25 @@ export default function useChatMessages() {
     };
   }, []);
 
-  return { messages, loading, error };
+  useEffect(() => {
+    const handleNewMessage = (newMsg) => {
+      setMessages((prev) => [...prev, newMsg]);
+    };
+
+    const handleErrorMessage = (data) => {
+      setSocketError(data?.message || data || 'An error occurred on the socket');
+    };
+
+    socket.on('new_message', handleNewMessage);
+    socket.on('error_message', handleErrorMessage);
+
+    return () => {
+      socket.off('new_message', handleNewMessage);
+      socket.off('error_message', handleErrorMessage);
+    };
+  }, []);
+
+  return { messages, loading, error, socketError, sendMessage };
 }
+
 

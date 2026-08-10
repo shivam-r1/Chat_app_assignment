@@ -109,7 +109,22 @@
   height: 8px;
   border-radius: 50%;
   background: #f59e0b;
+  transition: background-color 0.2s;
 }
+
+.status-dot.connected {
+  background: #10b981;
+}
+
+.socket-error {
+  padding: 8px 16px;
+  color: #ef4444;
+  font-size: 13px;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 6px;
+  margin: 0 24px 8px 24px;
+}
+
 
 .chat-body {
   flex: 1;

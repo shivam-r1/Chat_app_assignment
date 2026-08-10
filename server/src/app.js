@@ -1,14 +1,16 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
+const config = require('./config/env');
+const healthRoutes = require('./routes/healthRoutes');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: config.CLIENT_URL }));
 app.use(express.json());
 
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
+app.use('/api/health', healthRoutes);
+
+app.use(errorHandler);
 
 module.exports = app;

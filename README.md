@@ -198,4 +198,4 @@ Backend API: https://chat-app-backend-d1bq.onrender.com
 
 Repository: https://github.com/shivam-r1/Chat_app_assignment
 
-Screen Recording: [Google Drive Screen Recording](PASTE_LINK_HERE)
+Screen Recording: [Google Drive Screen Recording](https://drive.google.com/file/d/1Zmq7VXBbDiAMavtkYNjlf-wJk3_BLZL6/view?usp=sharing)
